@@ -1,0 +1,20 @@
+{
+  "name": "learn-faster-local",
+  "interface": {
+    "displayName": "Learn FASTER Local"
+  },
+  "plugins": [
+    {
+      "name": "learn-faster",
+      "source": {
+        "source": "local",
+        "path": "./plugins/learn-faster"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

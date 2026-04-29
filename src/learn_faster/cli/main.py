@@ -9,10 +9,8 @@ Usage:
 import sys
 import shutil
 import platform
-import inquirer
 import json
 from pathlib import Path
-from typing import Dict, Any
 
 
 # ANSI color codes
@@ -75,6 +73,19 @@ def print_error(msg: str) -> None:
 def get_templates_dir() -> Path:
     """Get the templates directory from the installed package."""
     return Path(__file__).parent.parent / "templates"
+
+
+def get_package_version() -> str:
+    """Get package version when installed or run directly from source."""
+    try:
+        from learn_faster import __version__
+        return __version__
+    except ModuleNotFoundError:
+        init_path = Path(__file__).parent.parent / "__init__.py"
+        for line in init_path.read_text(encoding="utf-8").splitlines():
+            if line.startswith("__version__"):
+                return line.split("=", 1)[1].strip().strip('"')
+        return "unknown"
 
 
 def create_or_update_settings(claude_dir: Path) -> None:
@@ -156,12 +167,13 @@ def check_initialization() -> bool:
         with open(config_path, "r") as f:
             config = json.load(f)
         return config.get("initialized", False)
-    except:
+    except (json.JSONDecodeError, OSError):
         return False
 
 
 def init_project() -> None:
     """Initialize Learn FASTER in the current project."""
+    import inquirer
     
 
     cwd = Path.cwd()
@@ -287,6 +299,76 @@ def init_project() -> None:
     print()
 
 
+def merge_codex_marketplace(template_path: Path, dest_path: Path) -> None:
+    """Create or update a repo-local Codex marketplace entry."""
+    with open(template_path, "r", encoding="utf-8") as f:
+        template = json.load(f)
+
+    if dest_path.exists():
+        with open(dest_path, "r", encoding="utf-8") as f:
+            marketplace = json.load(f)
+    else:
+        marketplace = {
+            "name": template["name"],
+            "interface": template.get("interface", {}),
+            "plugins": []
+        }
+
+    marketplace.setdefault("name", template["name"])
+    marketplace.setdefault("interface", template.get("interface", {}))
+    marketplace["interface"].setdefault(
+        "displayName",
+        template.get("interface", {}).get("displayName", "Learn FASTER Local")
+    )
+    marketplace.setdefault("plugins", [])
+
+    incoming = template["plugins"][0]
+    replaced = False
+    for index, plugin in enumerate(marketplace["plugins"]):
+        if plugin.get("name") == incoming["name"]:
+            marketplace["plugins"][index] = incoming
+            replaced = True
+            break
+
+    if not replaced:
+        marketplace["plugins"].append(incoming)
+
+    dest_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(dest_path, "w", encoding="utf-8") as f:
+        json.dump(marketplace, f, indent=2)
+        f.write("\n")
+
+
+def init_codex_project() -> None:
+    """Install the repo-local Codex plugin and marketplace entry."""
+    cwd = Path.cwd()
+    templates_dir = get_templates_dir() / "codex"
+    plugin_src = templates_dir / "plugins" / "learn-faster"
+    marketplace_src = templates_dir / ".agents" / "plugins" / "marketplace.json"
+
+    if not plugin_src.exists() or not marketplace_src.exists():
+        print_error("Codex plugin templates are missing from this installation")
+        print_dim(f"Expected templates under: {templates_dir}")
+        sys.exit(1)
+
+    plugin_dest = cwd / "plugins" / "learn-faster"
+    plugin_dest.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(plugin_src, plugin_dest, dirs_exist_ok=True)
+    print_success(f"Installed Codex plugin at {plugin_dest}")
+
+    marketplace_dest = cwd / ".agents" / "plugins" / "marketplace.json"
+    merge_codex_marketplace(marketplace_src, marketplace_dest)
+    print_success(f"Updated Codex marketplace at {marketplace_dest}")
+
+    print()
+    print_header("Codex setup complete")
+    print(f"  {Colors.CYAN}/plugins{Colors.RESET}                 - Install or enable Learn FASTER")
+    print(f"  {Colors.CYAN}$learn-faster \"Topic\"{Colors.RESET}   - Start a learning session")
+    print(f"  {Colors.CYAN}$learn-faster-practice{Colors.RESET}  - Generate practice exercises")
+    print(f"  {Colors.CYAN}$learn-faster-exam{Colors.RESET}      - Generate printable exams")
+    print()
+
+
 def launch_coach(auto_review: bool = False) -> None:
     """Launch Claude Code with learn-faster system prompt."""
     import subprocess
@@ -299,7 +381,7 @@ def launch_coach(auto_review: bool = False) -> None:
             with open(config_path, "r") as f:
                 config = json.load(f)
                 learning_mode = config.get("learning_mode", "balanced")
-        except:
+        except (json.JSONDecodeError, OSError):
             pass
 
     # Get the path to the system prompt template
@@ -359,14 +441,17 @@ def main() -> None:
             init_project()
             return
         elif command == "version":
-            from learn_faster import __version__
-            print(f"learn-faster version {__version__}")
+            print(f"learn-faster version {get_package_version()}")
+            return
+        elif command == "codex-init":
+            init_codex_project()
             return
         elif command in ["help", "--help", "-h"]:
             print("Learn FASTER - Accelerate learning with FASTER framework\n")
             print("Usage:")
             print("  learn-faster           Auto-init and launch Claude Code in coach mode")
             print("  learn-faster init      Force re-initialization")
+            print("  learn-faster codex-init Install the repo-local Codex plugin")
             print("  learn-faster version   Show version")
             print()
             print("For more info: https://github.com/cheukyin175/learn-faster-kit")

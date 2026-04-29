@@ -1,0 +1,38 @@
+{
+  "name": "learn-faster",
+  "version": "1.2.0",
+  "description": "FASTER framework learning coach with spaced repetition, active practice, and exam generation.",
+  "author": {
+    "name": "Hugo Lau",
+    "email": "cheukyin175@gmail.com",
+    "url": "https://github.com/cheukyin175"
+  },
+  "homepage": "https://github.com/cheukyin175/learn-faster-kit",
+  "repository": "https://github.com/cheukyin175/learn-faster-kit",
+  "license": "MIT",
+  "keywords": [
+    "learning",
+    "spaced-repetition",
+    "education",
+    "productivity"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Learn FASTER",
+    "shortDescription": "Learn topics with syllabi, reviews, practice, and exams.",
+    "longDescription": "A Codex-native learning coach built around the FASTER framework: Forget distractions, Act through practice, manage State, Teach back concepts, Enter learning time, and Review with spaced repetition.",
+    "developerName": "Hugo Lau",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/cheukyin175/learn-faster-kit",
+    "defaultPrompt": [
+      "Use $learn-faster to learn Rust ownership.",
+      "Use $learn-faster-practice for exercises.",
+      "Use $learn-faster-exam to make a mock exam."
+    ],
+    "brandColor": "#2563EB"
+  }
+}

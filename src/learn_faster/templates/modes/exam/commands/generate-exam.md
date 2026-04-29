@@ -17,7 +17,7 @@ Identify the topic directory from the context above (ignore `scripts`, `referenc
 Then read:
 - `.learning/<topic-slug>/syllabus.md` - What concepts are in the curriculum
 - `.learning/<topic-slug>/metadata.json` - Progress and current phase
-- `.learning/<topic-slug>/progress.json` - Completed concepts
+- `.learning/<topic-slug>/progress.md` - Recent learning sessions and completed concepts
 - `.learning/<topic-slug>/review_schedule.json` - What's been learned and reviewed
 
 ### Step 2: Consolidate Context
@@ -25,7 +25,7 @@ Then read:
 Create a summary of:
 - **Topic name**: [Extract from metadata]
 - **Learning phase**: [Current phase from metadata]
-- **Concepts covered**: [List from progress.json]
+- **Concepts covered**: [List from progress.md and review_schedule.json]
 - **Concepts mastered**: [From review_schedule.json - concepts with review_count > 2]
 - **Recent concepts**: [Last 5-10 concepts learned]
 - **Weak areas**: [Concepts with low review counts or marked as difficult]

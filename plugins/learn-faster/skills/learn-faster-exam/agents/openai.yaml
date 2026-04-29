@@ -1,0 +1,6 @@
+interface:
+  display_name: "Learn FASTER Exam"
+  short_description: "Generate printable exams, answer keys, and PDFs"
+  default_prompt: "Use $learn-faster-exam to generate a printable mock exam."
+behavior:
+  allow_implicit_invocation: false

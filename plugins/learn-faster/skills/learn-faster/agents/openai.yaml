@@ -1,0 +1,6 @@
+interface:
+  display_name: "Learn FASTER"
+  short_description: "Coach learning sessions with reviews and progress tracking"
+  default_prompt: "Use $learn-faster to start or continue learning a topic with spaced review."
+behavior:
+  allow_implicit_invocation: true

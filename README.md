@@ -6,7 +6,7 @@
 
 > AI-powered learning coach that accelerates mastery through spaced repetition, personalized syllabi, and active practice.
 
-**Built for [Claude Code](https://claude.com/claude-code)** - Integrates AI coaching directly into your development environment.
+**Built for Claude Code and Codex** - Integrates AI coaching directly into your development environment.
 
 ## Why Learn FASTER?
 
@@ -14,7 +14,7 @@ Master any technical skill with science-backed learning principles:
 
 -   **Personalized syllabi** generated for your skill level and learning goals
 -   **Spaced repetition** system that schedules reviews at optimal intervals
--   **Four learning modes** - choose Balanced, Exam-Prep, Theory-Focused, or Practical
+-   **Five learning modes** - choose Balanced, Exam-Prep, Theory-Focused, Practical, or Programming
 -   **Active practice** with auto-generated exercises and projects
 -   **Progress tracking** to visualize your learning journey
 
@@ -52,6 +52,14 @@ learn-faster
 
 This will auto-initialize on first run and launch Claude Code with FASTER coaching mode.
 
+For Codex, install the repo-local plugin in your project:
+
+```bash
+learn-faster codex-init
+```
+
+Then open Codex from that repo, install or enable Learn FASTER from `/plugins`, and invoke skills such as `$learn-faster "Rust ownership"`.
+
 ### Option 2: One-Time Use
 
 Run directly without installation:
@@ -84,6 +92,19 @@ your-project/
 └── CLAUDE.md
 ```
 
+For Codex, `learn-faster codex-init` creates:
+
+```
+your-project/
+├── .agents/plugins/marketplace.json
+└── plugins/learn-faster/
+    ├── .codex-plugin/plugin.json
+    └── skills/
+        ├── learn-faster/
+        ├── learn-faster-practice/
+        └── learn-faster-exam/
+```
+
 ## Quick Start
 
 1. **Install the tool**
@@ -104,6 +125,8 @@ your-project/
     - Prompt you to select a learning mode
     - Initialize the project structure
     - Launch Claude Code with FASTER coaching enabled
+
+    For Codex, run `learn-faster codex-init` instead, then start Codex in the repo and enable the local plugin from `/plugins`.
 
 3. **Start learning**
 
@@ -148,7 +171,16 @@ Coach: ✅ Great explanation! You nailed the key insight—wrapped errors
 
 -   `learn-faster` - Launch Claude Code with FASTER coaching (auto-initializes on first run)
 -   `learn-faster init` - Force re-initialization or switch learning modes
+-   `learn-faster codex-init` - Install the repo-local Codex plugin and marketplace entry
 -   `learn-faster version` - Show current version
+
+### Codex Skills
+
+After installing the Codex plugin with `learn-faster codex-init`, use:
+
+-   `$learn-faster [topic]` - Start or continue learning with syllabus, review, and progress tracking
+-   `$learn-faster-practice` - Generate exercises or projects from the current topic
+-   `$learn-faster-exam` - Generate printable exams, answer keys, and optional PDFs
 
 ### Claude Code Slash Commands
 
@@ -166,6 +198,7 @@ Choose the mode that fits your learning style:
 -   **Exam-Prep** - Focused on recall, practice tests, and certification preparation
 -   **Theory-Focused** - Deep conceptual understanding with mental models and first principles
 -   **Practical** - Project-based learning with immediate application
+-   **Programming** - Learn programming through implementation and debugging
 
 Each mode provides a tailored coaching experience with mode-specific syllabi and exercises.
 
@@ -198,7 +231,7 @@ Learn FASTER is ideal for:
 ## Requirements
 
 -   Python 3.12+
--   [Claude Code](https://claude.com/claude-code)
+-   [Claude Code](https://claude.com/claude-code) or Codex
 -   [uv](https://docs.astral.sh/uv/) package manager
 
 ## Contributing
