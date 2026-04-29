@@ -28,9 +28,9 @@ dependencies = [
 learn-faster = "learn_faster.cli.main:main"
 
 [project.urls]
-Homepage = "https://github.com/cheukyin175/learn-faster-kit"
-Repository = "https://github.com/cheukyin175/learn-faster-kit"
-Issues = "https://github.com/cheukyin175/learn-faster-kit/issues"
+Homepage = "https://github.com/alexmelekhin/learn-faster-kit"
+Repository = "https://github.com/alexmelekhin/learn-faster-kit"
+Issues = "https://github.com/alexmelekhin/learn-faster-kit/issues"
 
 [tool.uv]
 dev-dependencies = []

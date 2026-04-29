@@ -41,7 +41,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 Install once and use across all projects:
 
 ```bash
-uv tool install learn-faster --from git+https://github.com/cheukyin175/learn-faster-kit.git
+uv tool install learn-faster --from git+https://github.com/alexmelekhin/learn-faster-kit.git
 ```
 
 Then in any project directory, simply run:
@@ -65,7 +65,7 @@ Then open Codex from that repo, install or enable Learn FASTER from `/plugins`, 
 Run directly without installation:
 
 ```bash
-uvx --from git+https://github.com/cheukyin175/learn-faster-kit.git learn-faster
+uvx --from git+https://github.com/alexmelekhin/learn-faster-kit.git learn-faster
 ```
 
 ### What Gets Installed
@@ -110,7 +110,7 @@ your-project/
 1. **Install the tool**
 
     ```bash
-    uv tool install learn-faster --from git+https://github.com/cheukyin175/learn-faster-kit.git
+    uv tool install learn-faster --from git+https://github.com/alexmelekhin/learn-faster-kit.git
     ```
 
 2. **Launch in any project directory**
@@ -208,7 +208,7 @@ Each mode provides a tailored coaching experience with mode-specific syllabi and
 
 ```bash
 # Clone the repository
-git clone https://github.com/cheukyin175/learn-faster-kit.git
+git clone https://github.com/alexmelekhin/learn-faster-kit.git
 cd learn-faster-kit
 
 # Install uv if needed

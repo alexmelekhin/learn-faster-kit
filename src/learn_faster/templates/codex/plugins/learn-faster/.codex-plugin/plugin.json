@@ -7,8 +7,8 @@
     "email": "cheukyin175@gmail.com",
     "url": "https://github.com/cheukyin175"
   },
-  "homepage": "https://github.com/cheukyin175/learn-faster-kit",
-  "repository": "https://github.com/cheukyin175/learn-faster-kit",
+  "homepage": "https://github.com/alexmelekhin/learn-faster-kit",
+  "repository": "https://github.com/alexmelekhin/learn-faster-kit",
   "license": "MIT",
   "keywords": [
     "learning",
@@ -27,7 +27,7 @@
       "Interactive",
       "Write"
     ],
-    "websiteURL": "https://github.com/cheukyin175/learn-faster-kit",
+    "websiteURL": "https://github.com/alexmelekhin/learn-faster-kit",
     "defaultPrompt": [
       "Use $learn-faster to learn Rust ownership.",
       "Use $learn-faster-practice for exercises.",

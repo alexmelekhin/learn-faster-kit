@@ -5,18 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.2.1] - 2025-11-13
+## [1.2.0] - 2026-04-29
 
 ### Added
 
+- Repo-local Codex plugin with bundled `$learn-faster`, `$learn-faster-practice`, and `$learn-faster-exam` skills
+- Local Codex marketplace entry for discovering the Learn FASTER plugin from this repo
+- `learn-faster codex-init` command to install the Codex plugin and marketplace files into another project
+- Packaged Codex plugin templates so Codex setup ships with the Python package
+- Printable exam generation workflow for exam mode, including answer keys and optional PDF output
 - Programming mode for learning programming through project-based approach
 - Project-focused practice-creator agent for programming mode
 - Programming-specific system prompt and learn command
 
 ### Changed
 
+- Documented Claude Code and Codex workflows in the README
+- Updated README, package metadata, and plugin metadata to point at `alexmelekhin/learn-faster-kit`
+- Aligned the runtime `__version__` with `pyproject.toml` at `1.2.0`
 - Simplified practice-creator agents for balanced and practical modes
 - Reduced verbosity in practice templates
+
+### Fixed
+
+- Removed stale `.learning/<topic>/progress.json` references from exam-generation guidance
+- Made concept quiz generation fall back to `review_schedule.json` when concept metadata files do not exist
+- Mirrored review scheduler concepts into `.learning/<topic>/concepts/*.json` for quiz compatibility
+- Replaced Codex-facing Claude-only interaction examples with plain user prompts
+- Lazy-loaded the interactive `inquirer` dependency so non-interactive CLI commands can run from source
 
 ## [1.1.0] - 2025-11-11
 
