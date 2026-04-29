@@ -238,6 +238,10 @@ Learn FASTER is ideal for:
 
 Contributions are welcome! Feel free to open issues or submit pull requests.
 
+## Attribution
+
+This project is a fork of Hugo Lau's Learn FASTER kit: https://github.com/cheukyin175/learn-faster-kit.
+
 ## License
 
 MIT License - See LICENSE file for details
