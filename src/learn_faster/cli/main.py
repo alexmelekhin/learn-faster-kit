@@ -10,6 +10,7 @@ import sys
 import shutil
 import platform
 import json
+import importlib.util
 from pathlib import Path
 
 
@@ -364,9 +365,31 @@ def init_codex_project() -> None:
     print_header("Codex setup complete")
     print(f"  {Colors.CYAN}/plugins{Colors.RESET}                 - Install or enable Learn FASTER")
     print(f"  {Colors.CYAN}$learn-faster \"Topic\"{Colors.RESET}   - Start a learning session")
+    print(f"  {Colors.CYAN}$learn-faster-review{Colors.RESET}    - Review due concepts")
+    print(f"  {Colors.CYAN}$learn-faster-progress{Colors.RESET}  - Show progress reports")
     print(f"  {Colors.CYAN}$learn-faster-practice{Colors.RESET}  - Generate practice exercises")
     print(f"  {Colors.CYAN}$learn-faster-exam{Colors.RESET}      - Generate printable exams")
     print()
+
+
+def generate_exam_pdf(markdown_path: str) -> None:
+    """Generate an exam PDF using the package-bundled helper script."""
+    script_path = get_templates_dir() / "scripts" / "generate_exam_pdf.py"
+    if not script_path.exists():
+        print_error("PDF generator script is missing from this installation")
+        print_dim(f"Expected at: {script_path}")
+        sys.exit(1)
+
+    spec = importlib.util.spec_from_file_location("learn_faster_generate_exam_pdf", script_path)
+    if spec is None or spec.loader is None:
+        print_error("Unable to load PDF generator script")
+        print_dim(f"Path: {script_path}")
+        sys.exit(1)
+
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    success = module.generate_pdf(markdown_path)
+    sys.exit(0 if success else 1)
 
 
 def launch_coach(auto_review: bool = False) -> None:
@@ -446,15 +469,24 @@ def main() -> None:
         elif command == "codex-init":
             init_codex_project()
             return
+        elif command == "exam-pdf":
+            if len(sys.argv) < 3:
+                print_error("Missing markdown path")
+                print_dim("Usage: learn-faster exam-pdf <markdown-path>")
+                sys.exit(1)
+            generate_exam_pdf(sys.argv[2])
+            return
         elif command in ["help", "--help", "-h"]:
             print("Learn FASTER - Accelerate learning with FASTER framework\n")
             print("Usage:")
             print("  learn-faster           Auto-init and launch Claude Code in coach mode")
             print("  learn-faster init      Force re-initialization")
             print("  learn-faster codex-init Install the repo-local Codex plugin")
+            print("  learn-faster exam-pdf <markdown-path>")
+            print("                         Generate a PDF from an exam Markdown file")
             print("  learn-faster version   Show version")
             print()
-            print("For more info: https://github.com/cheukyin175/learn-faster-kit")
+            print("For more info: https://github.com/alexmelekhin/learn-faster-kit")
             return
         else:
             print_error(f"Unknown command: {command}")

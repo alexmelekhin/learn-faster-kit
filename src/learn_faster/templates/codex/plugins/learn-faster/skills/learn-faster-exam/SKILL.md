@@ -17,8 +17,11 @@ Use this skill when the user asks for a quiz paper, mock exam, certification pra
 6. Generate:
    - `exam/exam-<topic-slug>-<timestamp>.md`
    - `exam/exam-<topic-slug>-<timestamp>-ANSWERS.md`
-7. If PDF output is requested or expected, run:
-   `python3 .learning/scripts/generate_exam_pdf.py exam/exam-<topic-slug>-<timestamp>.md`
+7. If PDF output is requested or expected, prefer the installed package command:
+   `learn-faster exam-pdf exam/exam-<topic-slug>-<timestamp>.md`
+   and repeat for the answer key.
+8. If `learn-faster` is unavailable in the environment, use the fallback command:
+   `uv run --with reportlab python3 .learning/scripts/generate_exam_pdf.py exam/exam-<topic-slug>-<timestamp>.md`
    and repeat for the answer key.
 
 ## Exam Paper Requirements

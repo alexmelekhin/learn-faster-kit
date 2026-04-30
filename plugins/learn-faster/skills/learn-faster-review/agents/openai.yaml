@@ -1,0 +1,6 @@
+interface:
+  display_name: "Learn FASTER Review"
+  short_description: "Run spaced-repetition reviews for learned concepts"
+  default_prompt: "Use $learn-faster-review to review due Learn FASTER concepts."
+policy:
+  allow_implicit_invocation: true

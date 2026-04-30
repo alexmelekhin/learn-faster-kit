@@ -1,6 +1,6 @@
 {
   "name": "learn-faster",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "FASTER framework learning coach with spaced repetition, active practice, and exam generation.",
   "author": {
     "name": "Hugo Lau",
@@ -19,8 +19,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Learn FASTER",
-    "shortDescription": "Learn topics with syllabi, reviews, practice, and exams.",
-    "longDescription": "A Codex-native learning coach built around the FASTER framework: Forget distractions, Act through practice, manage State, Teach back concepts, Enter learning time, and Review with spaced repetition.",
+    "shortDescription": "Learn topics with syllabi, reviews, progress, practice, and exams.",
+    "longDescription": "A Codex-native learning coach built around the FASTER framework: Forget distractions, Act through practice, manage State, Teach back concepts, Enter learning time, and Review with spaced repetition. Includes explicit skills for learning, review, progress reporting, practice, and exam generation.",
     "developerName": "Hugo Lau",
     "category": "Productivity",
     "capabilities": [
@@ -30,6 +30,8 @@
     "websiteURL": "https://github.com/alexmelekhin/learn-faster-kit",
     "defaultPrompt": [
       "Use $learn-faster to learn Rust ownership.",
+      "Use $learn-faster-review to review due concepts.",
+      "Use $learn-faster-progress to show my learning progress.",
       "Use $learn-faster-practice for exercises.",
       "Use $learn-faster-exam to make a mock exam."
     ],

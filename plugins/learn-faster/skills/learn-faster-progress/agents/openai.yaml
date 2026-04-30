@@ -1,0 +1,6 @@
+interface:
+  display_name: "Learn FASTER Progress"
+  short_description: "Show progress reports for Learn FASTER topics"
+  default_prompt: "Use $learn-faster-progress to summarize my learning progress."
+policy:
+  allow_implicit_invocation: true

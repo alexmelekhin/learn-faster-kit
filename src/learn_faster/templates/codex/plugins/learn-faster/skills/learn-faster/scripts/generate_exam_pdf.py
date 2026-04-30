@@ -6,6 +6,7 @@ Convert exam markdown files to professional PDF documents using reportlab.
 import sys
 import json
 import re
+import shlex
 from pathlib import Path
 
 
@@ -240,6 +241,27 @@ def markdown_to_html(markdown_text: str, title: str) -> str:
     return html
 
 
+def write_printable_html(markdown_path: Path, title: str) -> Path:
+    """
+    Write a printable HTML fallback when ReportLab is unavailable.
+
+    Args:
+        markdown_path: Path to markdown file
+        title: Document title
+
+    Returns:
+        Path to generated HTML file
+    """
+    with open(markdown_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    html_path = markdown_path.with_suffix('.html')
+    with open(html_path, 'w', encoding='utf-8') as f:
+        f.write(markdown_to_html(content, title))
+
+    return html_path
+
+
 def generate_pdf(markdown_path: str) -> bool:
     """
     Generate PDF from markdown exam file.
@@ -277,11 +299,16 @@ def generate_pdf(markdown_path: str) -> bool:
         return True
 
     # reportlab not available
+    html_path = write_printable_html(md_path, title)
+    fallback_command = f"uv run --with reportlab python3 .learning/scripts/generate_exam_pdf.py {shlex.quote(str(md_path))}"
     output = {
-        "status": "error",
-        "error": "PDF generation library not available.",
-        "llm_directive": "Inform user to install reportlab.",
-        "suggested_response": "❌ PDF library not installed.\n\n💡 Install with: uv pip install reportlab"
+        "status": "pdf_unavailable",
+        "error": "ReportLab is not available in this Python environment. PDF was not produced.",
+        "markdown_path": str(md_path),
+        "html_path": str(html_path),
+        "fallback_command": fallback_command,
+        "llm_directive": "Inform user PDF was not produced, show the printable HTML fallback, and recommend the fallback command.",
+        "suggested_response": f"❌ PDF was not produced because ReportLab is unavailable.\n\nPrintable HTML fallback: {html_path}\n\nGenerate the PDF with: {fallback_command}"
     }
     print(json.dumps(output, indent=2))
     return False

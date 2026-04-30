@@ -2,5 +2,5 @@ interface:
   display_name: "Learn FASTER Practice"
   short_description: "Create exercises and projects from learning progress"
   default_prompt: "Use $learn-faster-practice to create exercises for my current topic."
-behavior:
+policy:
   allow_implicit_invocation: false

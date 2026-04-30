@@ -121,7 +121,7 @@ def init_learning_topic(topic_name: str, base_dir: str = ".learning", learning_m
             "concepts/"
         ],
         "next_action": "generate_syllabus",
-        "llm_directive": f"Immediately generate a comprehensive syllabus for '{topic_name}'. Write content to {topic_dir}/syllabus.md. Include: Overview, Prerequisites, Learning Objectives, 3-4 Phases with hands-on projects (🔨), Teaching Milestones, Resources, and Success Criteria. After writing, inform user syllabus is ready and show first 2-3 learning items.",
+        "llm_directive": f"Immediately generate a comprehensive syllabus for '{topic_name}'. Write content to {topic_dir}/syllabus.md. Include: Overview, Prerequisites, Learning Objectives, 3-4 Phases with hands-on projects (🔨), Teaching Milestones, Resources, and Success Criteria. After writing, run 'python3 .learning/scripts/generate_syllabus.py mark-generated {topic_slug}', then inform user syllabus is ready and show first 2-3 learning items.",
         "suggested_response": f"✅ Created learning environment for {topic_name}!\n\nGenerating comprehensive syllabus now..."
     }
 

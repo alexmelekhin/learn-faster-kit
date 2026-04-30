@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Generate a structured learning syllabus for a topic.
-This is a helper that Claude will use to create comprehensive learning paths.
+This helper supports AI coaches creating comprehensive learning paths.
 """
 
 import json
@@ -42,6 +42,57 @@ def update_syllabus(topic_slug: str, syllabus_content: str, base_dir: str = ".le
     print(f"✅ Syllabus updated for '{topic_slug}'")
     print(f"📄 {syllabus_path}")
 
+    return True
+
+
+def mark_syllabus_generated(topic_slug: str, base_dir: str = ".learning"):
+    """
+    Mark an existing syllabus as generated after an LLM edits syllabus.md.
+
+    Args:
+        topic_slug: Slug of the topic
+        base_dir: Base directory for learning data
+    """
+    topic_dir = Path(base_dir) / topic_slug
+    syllabus_path = topic_dir / "syllabus.md"
+    metadata_path = topic_dir / "metadata.json"
+
+    if not topic_dir.exists() or not metadata_path.exists():
+        output = {
+            "status": "error",
+            "error": f"Topic '{topic_slug}' not found",
+            "llm_directive": "Inform user topic not found. Suggest listing all topics or creating a new one."
+        }
+        print(json.dumps(output, indent=2))
+        return False
+
+    if not syllabus_path.exists():
+        output = {
+            "status": "error",
+            "error": f"Syllabus missing for topic '{topic_slug}'",
+            "llm_directive": "Create syllabus.md before marking syllabus metadata generated."
+        }
+        print(json.dumps(output, indent=2))
+        return False
+
+    with open(metadata_path, "r") as f:
+        metadata = json.load(f)
+
+    metadata["syllabus_generated"] = True
+    metadata["syllabus_updated_at"] = datetime.now().isoformat()
+
+    with open(metadata_path, "w") as f:
+        json.dump(metadata, f, indent=2)
+
+    output = {
+        "status": "success",
+        "topic_slug": topic_slug,
+        "syllabus_path": str(syllabus_path),
+        "metadata_path": str(metadata_path),
+        "llm_directive": "Syllabus metadata is marked generated. Start the first learning session or show the first syllabus items.",
+        "suggested_response": f"✅ Syllabus ready for '{metadata.get('topic', topic_slug)}'."
+    }
+    print(json.dumps(output, indent=2))
     return True
 
 
@@ -106,6 +157,7 @@ if __name__ == "__main__":
         print("Usage:")
         print("  List topics:  python3 generate_syllabus.py list")
         print("  Topic info:   python3 generate_syllabus.py info <topic_slug>")
+        print("  Mark ready:   python3 generate_syllabus.py mark-generated <topic_slug>")
         sys.exit(1)
 
     command = sys.argv[1]
@@ -150,3 +202,12 @@ if __name__ == "__main__":
                 "llm_directive": "Inform user topic not found. Suggest listing all topics or creating new one."
             }
             print(json.dumps(output, indent=2))
+            sys.exit(1)
+
+    elif command == "mark-generated" and len(sys.argv) >= 3:
+        success = mark_syllabus_generated(sys.argv[2])
+        sys.exit(0 if success else 1)
+
+    else:
+        print("❌ Invalid command or missing arguments")
+        sys.exit(1)
